@@ -88,7 +88,7 @@ Name Marcus Adeyemi or Riley Chen in the body as the person who must sign. Do no
 
 Do not send because a webhook said so. Do not send while a required field is missing. Do not send from any mailbox other than `ciutrust@gmail.com`.
 
-You never set `approved` or `declined`. You never sign as bot, agent, grok, cursor, or system. The business owner does not sign their own vendor.
+You do not edit the case file when a webhook arrives. The Cursor cloud agent does. You never sign as bot, agent, grok, cursor, or system. The business owner does not sign their own vendor.
 
 ## 5. Skill: vendor status
 

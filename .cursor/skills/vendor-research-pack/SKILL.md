@@ -7,7 +7,7 @@ description: Build the Acme public research pack from the checklist and mocked v
 
 Skip this skill when the requester already gave all five intake fields. That case sets `research_started: false` and does not get a pack.
 
-Use `templates/checklist.md` and `templates/research-pack.md` only when a required public field is still empty. Read only `fixtures/public-web/<vendor>/`.
+Do not open `fixtures/public-web/` until this chat names a vendor that is still missing a public field. Use `templates/checklist.md` and `templates/research-pack.md` only then. Read only `fixtures/public-web/<vendor>/`.
 
 Set `research_started: true` and `sources_mode: mocked`.
 
