@@ -1,0 +1,252 @@
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.16 0.012 70);
+  --surface: oklch(0.21 0.014 70);
+  --ink: oklch(0.96 0.008 90);
+  --muted: oklch(0.8 0.018 80);
+  --line: oklch(0.34 0.016 70);
+  --accent: oklch(0.8 0.13 78);
+  --accent-ink: oklch(0.2 0.03 70);
+  --ok: oklch(0.8 0.08 155);
+  --warn: oklch(0.84 0.1 85);
+  --danger: oklch(0.74 0.12 28);
+  --focus: oklch(0.86 0.1 78);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+a { color: var(--accent); }
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.wrap {
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 64px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.nav a[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 650;
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: 1.2rem;
+  line-height: 1.3;
+  font-weight: 650;
+  margin: 0 0 8px;
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 68ch;
+  color: var(--muted);
+  margin: 0 0 28px;
+}
+
+.record {
+  margin: 0 0 36px;
+  padding-bottom: 8px;
+}
+
+.record header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.tag.research { color: var(--ok); }
+.tag.missing { color: var(--warn); }
+.tag.human { color: var(--warn); }
+
+.message {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.message p {
+  margin: 0 0 10px;
+  max-width: 72ch;
+}
+
+.row-actions,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+button,
+select,
+textarea {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:hover { border-color: var(--accent); }
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  font-weight: 650;
+}
+
+button.primary:hover { filter: brightness(1.05); }
+
+button:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  max-width: 640px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+}
+
+textarea { min-height: 88px; resize: vertical; }
+
+.panel {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.panel p { margin: 0 0 8px; max-width: 68ch; }
+.panel p:last-child { margin-bottom: 0; }
+
+.result {
+  min-height: 1.5em;
+  margin: 0;
+}
+
+.result.bad { color: var(--danger); }
+.result.good { color: var(--ok); }
+
+.boundary {
+  margin-top: 28px;
+}
+
+.boundary ul {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+  max-width: 68ch;
+}
+
+.boundary li { margin: 6px 0; }
+
+@media (max-width: 720px) {
+  .wrap { width: min(980px, calc(100% - 24px)); }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  td { border-bottom: 0; padding: 6px 0; }
+  tr {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}

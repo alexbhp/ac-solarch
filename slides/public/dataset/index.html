@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dataset — Acme vendor onboarding</title>
+  <link rel="stylesheet" href="/acme.css">
+</head>
+<body>
+  <main class="wrap">
+    <nav class="nav">
+      <a href="/">Deck</a>
+      <a href="/dataset/" aria-current="page">Dataset</a>
+      <a href="/approval/">Approval</a>
+      <a href="/ops/">Ops</a>
+    </nav>
+    <h1>Three requests to paste</h1>
+    <p class="lede">Each value is labeled from the requester, from research, or not found. Copy a field or the whole message into Grok Bot. The company pages behind these values are mocked.</p>
+    <div id="records"></div>
+  </main>
+  <script>
+    const records = [
+      {
+        id: "VND-1101",
+        name: "Contoso, all five fields",
+        message: "We need to onboard Contoso Analytics, Inc. (https://www.contoso.example) for a 90-day pilot. They will touch customer data. Business owner is Priya Shah, Director of Finance Operations. Target start 2026-10-20.",
+        fields: [
+          ["Vendor legal name", "Contoso Analytics, Inc.", "From the requester"],
+          ["Website", "https://www.contoso.example", "From the requester"],
+          ["Touches customer data", "Yes", "From the requester"],
+          ["Business owner", "Priya Shah, Director of Finance Operations", "From the requester"],
+          ["Target start date", "2026-10-20", "From the requester"]
+        ]
+      },
+      {
+        id: "VND-1102",
+        name: "Initech, three of five",
+        message: "We need to onboard Initech Ledger, Inc. Business owner is Elena Voss, VP Finance Operations. Target start 2026-11-03.",
+        fields: [
+          ["Vendor legal name", "Initech Ledger, Inc.", "From the requester"],
+          ["Website", "https://www.initech.example", "From research"],
+          ["Touches customer data", "No. Internal scheduling tool.", "From research"],
+          ["Business owner", "Elena Voss, VP Finance Operations", "From the requester"],
+          ["Target start date", "2026-11-03", "From the requester"]
+        ]
+      },
+      {
+        id: "VND-1103",
+        name: "Globex, no fields",
+        message: "We need to onboard Globex.",
+        fields: [
+          ["Vendor legal name", "Globex Field Systems, Inc.", "From research"],
+          ["Website", "https://www.globex.example", "From research"],
+          ["Touches customer data", "Yes. Field technicians see customer site contacts.", "From research"],
+          ["Business owner", "Not found", "Not found"],
+          ["Target start date", "2026-12-01, inferred from the public pilot page", "From research"]
+        ]
+      }
+    ];
+
+    const root = document.querySelector("#records");
+
+    function tagClass(source) {
+      if (source === "From research") return "tag research";
+      if (source === "Not found") return "tag missing";
+      return "tag";
+    }
+
+    async function copyText(button, value) {
+      try {
+        await navigator.clipboard.writeText(value);
+        const previous = button.textContent;
+        button.textContent = "Copied";
+        setTimeout(() => { button.textContent = previous; }, 1200);
+      } catch {
+        button.textContent = "Copy failed";
+      }
+    }
+
+    for (const record of records) {
+      const section = document.createElement("section");
+      section.className = "record";
+      section.innerHTML = `
+        <header>
+          <div>
+            <h2>${record.name}</h2>
+            <p class="lede" style="margin:0">${record.id}</p>
+          </div>
+          <button type="button" data-copy="message">Copy full message</button>
+        </header>
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Value</th><th>Where it came from</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="message">
+          <p>${record.message}</p>
+        </div>
+      `;
+      const body = section.querySelector("tbody");
+      for (const [label, value, source] of record.fields) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td data-label="Field">${label}</td>
+          <td data-label="Value"></td>
+          <td data-label="Where it came from"><span class="${tagClass(source)}">${source}</span></td>
+          <td data-label="Copy"><button type="button">Copy</button></td>
+        `;
+        row.children[1].textContent = value;
+        row.querySelector("button").addEventListener("click", (event) => copyText(event.currentTarget, value));
+        body.appendChild(row);
+      }
+      section.querySelector("[data-copy='message']").addEventListener("click", (event) => copyText(event.currentTarget, record.message));
+      root.appendChild(section);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ops — Acme vendor onboarding</title>
+  <link rel="stylesheet" href="/acme.css">
+</head>
+<body>
+  <main class="wrap">
+    <nav class="nav">
+      <a href="/">Deck</a>
+      <a href="/dataset/">Dataset</a>
+      <a href="/approval/">Approval</a>
+      <a href="/ops/" aria-current="page">Ops</a>
+    </nav>
+    <h1>Every submission</h1>
+    <p class="lede">This is the status view Ops opens. It matches <span>cases/ledger.md</span>. Each row splits what the agent already did from what still needs a person. No one has signed these three cases.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Case</th>
+          <th>Vendor</th>
+          <th>Status</th>
+          <th>Automated</th>
+          <th>Needs a person</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Case"><a href="/approval/?case=VND-1101">VND-1101</a></td>
+          <td data-label="Vendor">Contoso Analytics, Inc.</td>
+          <td data-label="Status">awaiting_security</td>
+          <td data-label="Automated">Kept five fields, built the pack, opened Security</td>
+          <td data-label="Needs a person"><span class="tag human">Marcus Adeyemi</span></td>
+        </tr>
+        <tr>
+          <td data-label="Case"><a href="/approval/?case=VND-1102">VND-1102</a></td>
+          <td data-label="Vendor">Initech Ledger, Inc.</td>
+          <td data-label="Status">awaiting_manager</td>
+          <td data-label="Automated">Kept three fields, filled website and customer data no, opened the manager</td>
+          <td data-label="Needs a person"><span class="tag human">Riley Chen</span></td>
+        </tr>
+        <tr>
+          <td data-label="Case">VND-1103</td>
+          <td data-label="Vendor">Globex Field Systems, Inc.</td>
+          <td data-label="Status">intake_incomplete</td>
+          <td data-label="Automated">Found four fields on public pages, owner not found, research stopped</td>
+          <td data-label="Needs a person"><span class="tag human">The Acme business owner</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <section class="boundary panel">
+      <h2>What this system can touch</h2>
+      <ul>
+        <li>It reads the requester message, the mocked public vendor pages, and the case file.</li>
+        <li>It writes the case file and the chat. A decision arrives as a named person from the approval page.</li>
+        <li>It does not hold an ITSM login, a mailbox password, or the webhook key. Bots on this account share one computer.</li>
+        <li>It does not read a private DPA, customer records, or a vendor admin console.</li>
+        <li>Marcus Adeyemi signs Security. Riley Chen signs the manager gate. The business owner cannot sign their own vendor. A customer-data case cannot skip Security.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

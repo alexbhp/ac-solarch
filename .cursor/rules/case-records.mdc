@@ -1,0 +1,32 @@
+---
+description: Shape of a vendor case file, its research pack, and its audit.
+globs: cases/**/*.md
+---
+
+# Case records
+
+A case is the record. The chat is not.
+
+`case.md` frontmatter is flat. One key per line. Quote the website. Booleans are `true` or `false`.
+
+Required keys: `case_id`, `status`, `vendor_legal_name`, `website`, `touches_customer_data`, `business_owner`, `target_start_date`, `requester`, `sources_mode`, `research_started`, `missing_fields`, `security_required`, `security_decision`, `security_signed_by`, `manager_required`, `manager_decision`, `manager_signed_by`.
+
+`sources_mode` is `mocked` for this exercise.
+
+The body starts with the handoff:
+
+```
+Status: <status>
+Case: <case_id>
+See it in Cursor: cases/<case_id>/
+```
+
+Then `## What I automated` and `## What still needs a person`. Until a human has signed `approved` or `declined`, the body ends with `I did not approve this vendor.`
+
+`research-pack.md` uses the checklist in `templates/checklist.md`. Evidence paths are repo-relative and must exist. The body includes `Data touch: yes` or `Data touch: no`, a `## Sources` list of https URLs for every found page, and `Gaps: none` or a listed gap.
+
+`audit.md` has `## Automated` and `## Needs a person`. Those headings match the ledger and `/ops/`.
+
+`approval-email.md` is a draft. It links to `/approval/?case=<case_id>`. Do not create it while a required field is missing. Globex (`VND-1103`) has no approval email.
+
+When a case changes, update its ledger row in `cases/ledger.md`.

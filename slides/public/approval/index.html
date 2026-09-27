@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Approval — Acme vendor onboarding</title>
+  <link rel="stylesheet" href="/acme.css">
+</head>
+<body>
+  <main class="wrap">
+    <nav class="nav">
+      <a href="/">Deck</a>
+      <a href="/dataset/">Dataset</a>
+      <a href="/approval/" aria-current="page">Approval</a>
+      <a href="/ops/">Ops</a>
+    </nav>
+    <h1>Approval</h1>
+    <p class="lede">The email link opens this page. Pick who is logged in, then approve, deny, or ask for more information. The page sends that decision to the Vendor Intake bot. The dropdown is the exercise stand-in for SSO.</p>
+
+    <form class="form" id="decision">
+      <label>
+        Case
+        <select id="case" name="case_id"></select>
+      </label>
+      <article class="panel" id="brief"></article>
+      <label>
+        Logged in as
+        <select id="who" name="signed_by">
+          <option value="Marcus Adeyemi" data-role="Security">Marcus Adeyemi — Security</option>
+          <option value="Riley Chen" data-role="Finance approver">Riley Chen — Finance approver</option>
+          <option value="Elena Voss" data-role="Business owner">Elena Voss — Business owner, Initech</option>
+          <option value="Priya Shah" data-role="Business owner">Priya Shah — Business owner, Contoso</option>
+        </select>
+      </label>
+      <label>
+        Note
+        <textarea id="note" name="note" placeholder="Required when you ask for more information."></textarea>
+      </label>
+      <div class="actions">
+        <button class="primary" type="submit" data-action="approve">Approve</button>
+        <button type="submit" data-action="deny">Deny</button>
+        <button type="submit" data-action="more_info">More information required</button>
+      </div>
+      <p class="result" id="result" role="status"></p>
+    </form>
+  </main>
+  <script>
+    const cases = {
+      "VND-1101": {
+        title: "Contoso Analytics, Inc.",
+        gate: "Awaiting Security",
+        ready: true,
+        brief: "To Marcus Adeyemi. Jordan Hale asked to pilot Contoso Analytics, Inc. starting 2026-10-20. The vendor will touch customer data. The trust page claims SOC 2 and does not publish the report. This draft was not sent by the bot."
+      },
+      "VND-1102": {
+        title: "Initech Ledger, Inc.",
+        gate: "Awaiting the manager",
+        ready: true,
+        brief: "To Riley Chen. Sam Ortiz asked to pilot Initech Ledger, Inc. starting 2026-11-03. Elena Voss is the business owner. Public pages say the tool does not store customer records, so Security is not opened. This draft was not sent by the bot."
+      },
+      "VND-1103": {
+        title: "Globex Field Systems, Inc.",
+        gate: "Intake still open",
+        ready: false,
+        brief: "The Acme business owner is still missing. Research found the other four fields. There is no approval email until that name exists."
+      }
+    };
+
+    const caseSelect = document.querySelector("#case");
+    const brief = document.querySelector("#brief");
+    const form = document.querySelector("#decision");
+    const result = document.querySelector("#result");
+    const buttons = [...form.querySelectorAll("button")];
+    const note = document.querySelector("#note");
+    const who = document.querySelector("#who");
+
+    for (const [id, item] of Object.entries(cases)) {
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = `${id} — ${item.title}`;
+      caseSelect.append(option);
+    }
+
+    const params = new URLSearchParams(location.search);
+    if (cases[params.get("case")]) caseSelect.value = params.get("case");
+
+    function render() {
+      const item = cases[caseSelect.value];
+      brief.innerHTML = `<h2>${item.title}</h2><p>${item.gate}</p><p>${item.brief}</p>`;
+      for (const button of buttons) button.disabled = !item.ready;
+      who.disabled = !item.ready;
+      note.disabled = !item.ready;
+      result.textContent = item.ready ? "" : "This case cannot take a decision yet.";
+      result.className = "result";
+      const url = new URL(location.href);
+      url.searchParams.set("case", caseSelect.value);
+      history.replaceState(null, "", url);
+    }
+
+    caseSelect.addEventListener("change", render);
+    render();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const action = event.submitter?.dataset.action;
+      const item = cases[caseSelect.value];
+      if (!item.ready) return;
+      const noteText = note.value.trim();
+      if (action === "more_info" && !noteText) {
+        result.textContent = "Say what information you still need.";
+        result.className = "result bad";
+        note.focus();
+        return;
+      }
+      const role = who.selectedOptions[0].dataset.role;
+      const payload = {
+        case_id: caseSelect.value,
+        action,
+        signed_by: who.value,
+        role,
+        note: noteText
+      };
+      result.textContent = "Sending the decision to the bot…";
+      result.className = "result";
+      for (const button of buttons) button.disabled = true;
+      try {
+        const response = await fetch("/api/approval", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const body = await response.json();
+        result.textContent = body.reason || "The page could not read a response.";
+        result.className = body.delivered ? "result good" : "result bad";
+      } catch {
+        result.textContent = "The decision page could not reach the server.";
+        result.className = "result bad";
+      } finally {
+        for (const button of buttons) button.disabled = !item.ready;
+      }
+    });
+  </script>
+</body>
+</html>

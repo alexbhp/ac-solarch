@@ -1,0 +1,14 @@
+{
+  "name": "ac-solarch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev slides/slides.md",
+    "build": "slidev build slides/slides.md --out dist",
+    "validate": "node scripts/validate-case.mjs"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^53.0.0",
+    "@slidev/theme-default": "^0.25.0"
+  }
+}
