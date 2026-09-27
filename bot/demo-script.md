@@ -66,7 +66,7 @@ node scripts/validate-case.mjs cases/VND-1104
 
 Open the email link, or go to `/approval/VND-1101`. Ops rows go to the same path.
 
-- Logged in as Marcus Adeyemi. Approve. The approval page shows `I received a decision for VND-1101: APPROVED by Marcus Adeyemi (Security).` at the click. The bot chat gets that sentence when the routine finishes, which can be after the Cursor card appears. The case moves to the manager.
+- Logged in as Marcus Adeyemi. Approve. The approval page shows `Approval Decision for Security by Marcus Adeyemi submitted to Vendor Intake Bot (Grok Bot).` at the click. The bot chat gets that sentence when the routine finishes, which can be after the Cursor card appears. The case moves to the manager.
 - Logged in as Riley Chen on VND-1101 after Security. Approve. The thread starts with **VENDOR IS APPROVED**, and the Cursor card is there again.
 - Logged in as Elena Voss on VND-1102. Approve. The bot refuses. She is the business owner.
 - Logged in as Riley Chen on VND-1102. Deny. The bot says it received the decision, shows the Cursor card, and the agent records declined.
@@ -91,3 +91,13 @@ Then open `.cursor/rules/acme-boundaries.mdc` and show the same sentences. The v
 ## 6. If they ask about the API
 
 Use `docs/api-literacy.md`. No call is built. The API would enter behind an ITSM webhook or to fill packs at volume. It would not approve, and it would not replace the bot as the front door.
+
+## 7. Grok bot reset
+
+Use this after a test approval, before the next pass. Paste it into the Vendor Intake bot and tell it to save the text on the Acme vendor intake skill. Start a new chat after it saves. The webhook routine stays.
+
+```
+This is a reset. The next request and the next webhook are a new run. Earlier Contoso approvals in this chat are void. VND-1101 on main is awaiting_security again. Marcus Adeyemi has not signed. Riley Chen has not signed. Do not treat an earlier message, an earlier cloud agent, or an earlier webhook as a signature. Do not list cases until a vendor request is in this chat.
+```
+
+The case file is the record. If a cloud agent already committed an approval, restore `cases/VND-1101/` and the Contoso row in `cases/ledger.md` on `main` before the next click. The prompt clears what the bot remembers. It does not undo that commit.

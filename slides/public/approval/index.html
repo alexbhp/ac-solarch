@@ -92,8 +92,8 @@
     }
 
     function decisionSentence(action, signedBy, role) {
-      const word = action === "approve" ? "APPROVED" : "DENIED";
-      return `I received a decision for ${caseId}: ${word} by ${signedBy} (${role}). I am triggering a Cursor cloud agent to update the case files.`;
+      const kind = action === "approve" ? "Approval" : "Denial";
+      return `${kind} Decision for ${role} by ${signedBy} submitted to Vendor Intake Bot (Grok Bot).`;
     }
 
     form.addEventListener("submit", async (event) => {

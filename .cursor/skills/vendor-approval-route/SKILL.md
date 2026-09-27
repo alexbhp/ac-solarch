@@ -24,13 +24,13 @@ A webhook may carry only `case_id`, `action`, `signed_by`, and `role`. `action` 
 
 The approval page shows one sentence the moment the button is clicked. This chat cannot show it until the routine finishes, and that can be after the cloud agent has started. Inside the routine, still write the sentence before you read the repo or start the agent.
 
-Write `approve` as APPROVED and `deny` as DENIED. The sentence is:
+The sentence matches the approval page. An approve says Approval. A deny says Denial. The sentence is:
 
-I received a decision for `<case_id>`: APPROVED by `<signed_by>` (`<role>`). I am triggering a Cursor cloud agent to update the case files.
+Approval Decision for `<role>` by `<signed_by>` submitted to Vendor Intake Bot (Grok Bot).
 
-Example: I received a decision for VND-1101: APPROVED by Marcus Adeyemi (Security). I am triggering a Cursor cloud agent to update the case files.
+Example: Approval Decision for Security by Marcus Adeyemi submitted to Vendor Intake Bot (Grok Bot).
 
-A deny uses DENIED in that same place. Example: I received a decision for VND-1102: DENIED by Riley Chen (Finance approver). I am triggering a Cursor cloud agent to update the case files.
+A deny uses Denial in that same place. Example: Denial Decision for Finance approver by Riley Chen submitted to Vendor Intake Bot (Grok Bot).
 
 Then start a Cursor cloud agent on `https://github.com/alexbhp/ac-solarch`, branch `main`. Starting that agent is what shows the Cursor cloud agent card in the chat. Do not update the case files yourself. Do not finish the webhook without that card.
 
