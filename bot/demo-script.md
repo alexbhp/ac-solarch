@@ -12,7 +12,7 @@ Screen-share https://ac-solarch.vercel.app. Pain, outcomes, architecture, bot fl
 
 ## 2. Paste a request
 
-The bot does not list cases until a request is in the chat. Open `/dataset/`. Copy a full message.
+The bot does not list cases until a request is in the chat. This pass is a new run: Contoso is `awaiting_security` again, and earlier approvals in the thread do not count. Open `/dataset/`. Copy a full message.
 
 Contoso, all five fields:
 
