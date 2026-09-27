@@ -18,18 +18,20 @@
     <p class="lede" id="lede">The email link opens this vendor. Pick who is logged in, then approve or deny. The page sends that decision to the Vendor Intake bot. The dropdown is the exercise stand-in for SSO.</p>
     <form class="form" id="decision" hidden>
       <article class="panel" id="brief"></article>
-      <label>
-        Logged in as
-        <select id="who" name="signed_by">
-          <option value="Marcus Adeyemi" data-role="Security">Marcus Adeyemi — Security</option>
-          <option value="Riley Chen" data-role="Finance approver">Riley Chen — Finance approver</option>
-          <option value="Elena Voss" data-role="Business owner">Elena Voss — Business owner, Initech</option>
-          <option value="Priya Shah" data-role="Business owner">Priya Shah — Business owner, Contoso</option>
-        </select>
-      </label>
-      <div class="actions">
-        <button class="primary" type="submit" data-action="approve">Approve</button>
-        <button type="submit" data-action="deny">Deny</button>
+      <div id="signer">
+        <label>
+          Logged in as
+          <select id="who" name="signed_by">
+            <option value="Marcus Adeyemi" data-role="Security">Marcus Adeyemi — Security</option>
+            <option value="Riley Chen" data-role="Finance approver">Riley Chen — Finance approver</option>
+            <option value="Elena Voss" data-role="Business owner">Elena Voss — Business owner, Initech</option>
+            <option value="Priya Shah" data-role="Business owner">Priya Shah — Business owner, Contoso</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button class="primary" type="submit" data-action="approve">Approve</button>
+          <button type="submit" data-action="deny">Deny</button>
+        </div>
       </div>
       <p class="decision-line" id="decision-line" role="status" hidden></p>
       <p class="result" id="result"></p>
@@ -40,8 +42,17 @@
     const brief = document.querySelector("#brief");
     const decisionLine = document.querySelector("#decision-line");
     const result = document.querySelector("#result");
+    const signer = document.querySelector("#signer");
     const who = document.querySelector("#who");
     const buttons = [...form.querySelectorAll("button")];
+    const fieldLabels = {
+      vendor_legal_name: "legal name",
+      website: "website",
+      business_owner: "business owner",
+      target_start_date: "target start date",
+      touches_customer_data: "customer-data flag"
+    };
+    let caseReady = false;
     const lede = document.querySelector("#lede");
 
     function caseIdFromLocation() {
@@ -54,8 +65,28 @@
     const caseId = caseIdFromLocation();
 
     function setReady(ready) {
+      caseReady = ready;
+      signer.hidden = !ready;
       for (const button of buttons) button.disabled = !ready;
       who.disabled = !ready;
+    }
+
+    function lockSigner() {
+      caseReady = false;
+      for (const button of buttons) button.disabled = true;
+      who.disabled = true;
+    }
+
+    function notReadyMessage(item) {
+      const missing = (item.missing || []).map((key) => fieldLabels[key] || key);
+      if (missing.length === 1) {
+        return `The ${missing[0]} is still missing. There is nothing to approve or deny.`;
+      }
+      if (missing.length > 1) {
+        const list = `${missing.slice(0, -1).join(", ")} and ${missing.at(-1)}`;
+        return `These fields are still missing: ${list}. There is nothing to approve or deny.`;
+      }
+      return "This case cannot take a decision yet.";
     }
 
     if (!caseId) {
@@ -68,6 +99,7 @@
         .then((body) => {
           if (!body.ok) {
             brief.innerHTML = `<h2>${caseId}</h2><p>${body.reason || "This case could not be loaded."}</p>`;
+            lede.textContent = "This vendor is not waiting for a signature.";
             setReady(false);
             return;
           }
@@ -82,11 +114,13 @@
           brief.append(title, gate, email);
           setReady(item.ready);
           if (!item.ready) {
-            result.textContent = "This case cannot take a decision yet.";
+            lede.textContent = "This vendor is not waiting for a signature.";
+            result.textContent = notReadyMessage(item);
           }
         })
         .catch(() => {
           brief.innerHTML = `<h2>${caseId}</h2><p>The case file could not be read.</p>`;
+          lede.textContent = "This vendor is not waiting for a signature.";
           setReady(false);
         });
     }
@@ -98,13 +132,14 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (!caseReady) return;
       const action = event.submitter?.dataset.action;
       const role = who.selectedOptions[0].dataset.role;
       decisionLine.hidden = false;
       decisionLine.textContent = decisionSentence(action, who.value, role);
       result.textContent = "";
       result.className = "result";
-      setReady(false);
+      lockSigner();
       try {
         const response = await fetch("/api/approval", {
           method: "POST",

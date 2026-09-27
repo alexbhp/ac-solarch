@@ -70,7 +70,7 @@ Open the email link, or go to `/approval/VND-1101`. Ops rows go to the same path
 - Logged in as Riley Chen on VND-1101 after Security. Approve. The thread starts with **VENDOR IS APPROVED**, and the Cursor card is there again.
 - Logged in as Elena Voss on VND-1102. Approve. The bot refuses. She is the business owner.
 - Logged in as Riley Chen on VND-1102. Deny. The bot says it received the decision, shows the Cursor card, and the agent records declined.
-- Globex, `/approval/VND-1103`. The buttons are off.
+- Globex, `/approval/VND-1103`. The page says the business owner is still missing and there is nothing to approve or deny. Logged in as, Approve, and Deny are not shown.
 
 The page has Approve and Deny only. Either one posts `case_id`, `action`, `signed_by`, and `role`.
 

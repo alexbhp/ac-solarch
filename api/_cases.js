@@ -93,7 +93,9 @@ export async function loadCase(id) {
           ? "Awaiting Security"
           : status === "awaiting_manager"
             ? "Awaiting the manager"
-            : status,
+            : status === "intake_incomplete"
+              ? "Intake is incomplete"
+              : status,
     },
   };
 }

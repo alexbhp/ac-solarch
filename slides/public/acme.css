@@ -183,9 +183,17 @@ textarea:disabled {
   opacity: 0.55;
 }
 
-.form {
+.form,
+#signer {
   display: grid;
   gap: 16px;
+}
+
+#signer[hidden] {
+  display: none;
+}
+
+.form {
   max-width: 640px;
 }
 
