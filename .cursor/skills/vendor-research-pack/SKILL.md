@@ -5,7 +5,9 @@ description: Build the Acme public research pack from the checklist and mocked v
 
 # Research pack
 
-Use `templates/checklist.md` and `templates/research-pack.md`. Read only `fixtures/public-web/<vendor>/`.
+Skip this skill when the requester already gave all five intake fields. That case sets `research_started: false` and does not get a pack.
+
+Use `templates/checklist.md` and `templates/research-pack.md` only when a required public field is still empty. Read only `fixtures/public-web/<vendor>/`.
 
 Set `research_started: true` and `sources_mode: mocked`.
 

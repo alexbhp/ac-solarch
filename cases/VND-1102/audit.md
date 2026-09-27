@@ -6,7 +6,7 @@
 - Filled website and customer-data flag (no) from mocked public pages.
 - Marked public pricing not published.
 - Left Security closed.
-- Opened the manager gate and drafted the approval email. Did not send it.
+- Opened the manager gate and wrote the approval email for the bot to send after its approval card.
 
 ## Needs a person
 

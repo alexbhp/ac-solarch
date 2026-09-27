@@ -21,7 +21,7 @@ node scripts/validate-case.mjs fixtures/invalid/VND-9999
 The deck source is `slides/slides.md`. The built site also serves:
 
 - `/dataset/` — three requester messages, with a copy button on each field
-- `/approval/` — Logged in as, then approve, deny, or more information
+- `/approval/<case id>` — Logged in as, then Approve or Deny for that vendor
 - `/ops/` — every submission, automated against what still needs a person
 
 ## Bot

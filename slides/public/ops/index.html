@@ -15,7 +15,7 @@
       <a href="/ops/" aria-current="page">Ops</a>
     </nav>
     <h1>Every submission</h1>
-    <p class="lede">This is the status view Ops opens. It matches <span>cases/ledger.md</span>. Each row splits what the agent already did from what still needs a person. No one has signed these three cases.</p>
+    <p class="lede">This is the status view Ops opens. Each row is one case folder. A new vendor shows up here after its ledger row is on main. Click a case to open that vendor.</p>
     <table>
       <thead>
         <tr>
@@ -26,35 +26,60 @@
           <th>Needs a person</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td data-label="Case"><a href="/approval/?case=VND-1101">VND-1101</a></td>
-          <td data-label="Vendor">Contoso Analytics, Inc.</td>
-          <td data-label="Status">awaiting_security</td>
-          <td data-label="Automated">Kept five fields, built the pack, opened Security</td>
-          <td data-label="Needs a person"><span class="tag human">Marcus Adeyemi</span></td>
-        </tr>
-        <tr>
-          <td data-label="Case"><a href="/approval/?case=VND-1102">VND-1102</a></td>
-          <td data-label="Vendor">Initech Ledger, Inc.</td>
-          <td data-label="Status">awaiting_manager</td>
-          <td data-label="Automated">Kept three fields, filled website and customer data no, opened the manager</td>
-          <td data-label="Needs a person"><span class="tag human">Riley Chen</span></td>
-        </tr>
-        <tr>
-          <td data-label="Case">VND-1103</td>
-          <td data-label="Vendor">Globex Field Systems, Inc.</td>
-          <td data-label="Status">intake_incomplete</td>
-          <td data-label="Automated">Found four fields on public pages, owner not found, research stopped</td>
-          <td data-label="Needs a person"><span class="tag human">The Acme business owner</span></td>
-        </tr>
+      <tbody id="rows">
+        <tr><td colspan="5">Loading the ledger…</td></tr>
       </tbody>
     </table>
+    <script>
+      const body = document.querySelector("#rows");
+      fetch("/api/ledger")
+        .then((response) => response.json())
+        .then((payload) => {
+          if (!payload.ok || !payload.rows.length) {
+            body.innerHTML = "<tr><td colspan=\"5\">The ledger could not be loaded.</td></tr>";
+            return;
+          }
+          body.replaceChildren();
+          for (const row of payload.rows) {
+            const tr = document.createElement("tr");
+            const id = document.createElement("td");
+            id.dataset.label = "Case";
+            const link = document.createElement("a");
+            link.href = "/approval/" + row.case_id;
+            link.textContent = row.case_id;
+            id.append(link);
+            const cells = [
+              ["Vendor", row.vendor],
+              ["Status", row.status],
+              ["Automated", row.automated],
+              ["Needs a person", row.needs_person]
+            ];
+            tr.append(id);
+            for (const [label, value] of cells) {
+              const td = document.createElement("td");
+              td.dataset.label = label;
+              if (label === "Needs a person") {
+                const tag = document.createElement("span");
+                tag.className = "tag human";
+                tag.textContent = value;
+                td.append(tag);
+              } else {
+                td.textContent = value;
+              }
+              tr.append(td);
+            }
+            body.append(tr);
+          }
+        })
+        .catch(() => {
+          body.innerHTML = "<tr><td colspan=\"5\">The ledger could not be loaded.</td></tr>";
+        });
+    </script>
     <section class="boundary panel">
       <h2>What this system can touch</h2>
       <ul>
         <li>It reads the requester message, the mocked public vendor pages, and the case file.</li>
-        <li>It writes the case file and the chat. A decision arrives as a named person from the approval page.</li>
+        <li>It writes the case file and the chat. The bot sends the approval email after its approval card. A decision arrives as a named person from the approval page.</li>
         <li>It does not hold an ITSM login, a mailbox password, or the webhook key. Bots on this account share one computer.</li>
         <li>It does not read a private DPA, customer records, or a vendor admin console.</li>
         <li>Marcus Adeyemi signs Security. Riley Chen signs the manager gate. The business owner cannot sign their own vendor. A customer-data case cannot skip Security.</li>

@@ -71,7 +71,7 @@ flowchart TD
   skills --> fixtures[MockedPublicPages]
   fixtures --> caseFile[CaseFile]
   caseFile --> ops[OpsBoard]
-  caseFile --> email[DraftEmail]
+  caseFile --> email[BotSendsEmail]
   email --> approval[ApprovalPage]
   approval --> hook[BotWebhook]
   hook --> bot
@@ -81,6 +81,7 @@ The bot does not load `.cursor/rules` by itself. The same instructions are paste
 
 <!--
 One bot. A second bot is not a security boundary because the account shares one computer.
+The bot sends the email after its own approval card. The link is /approval/ and the case id.
 The API is not on this diagram as a built path. Mention it only if asked.
 -->
 
@@ -90,12 +91,14 @@ The API is not on this diagram as a built path. Mention it only if asked.
 
 ```mermaid
 flowchart TD
-  intake[Intake] -->|fields missing| ask[AskOnlyForTheGap]
+  intake[Intake] -->|field missing| ask[AskOnlyForTheGap]
   ask --> intake
-  intake -->|five fields| research[ResearchPack]
+  intake -->|five fields, public gap| research[ResearchPack]
+  intake -->|five fields already stated| route[OpenTheGate]
   research -->|blank checklist| gap[ResearchGap]
-  research -->|pack complete and customer data| security[AwaitingSecurity]
-  research -->|pack complete and no customer data| manager[AwaitingManager]
+  research -->|pack complete| route
+  route -->|customer data| security[AwaitingSecurity]
+  route -->|no customer data| manager[AwaitingManager]
   security -->|human signs| manager
   manager -->|human signs| approved[Approved]
   security -->|human declines| declined[Declined]
@@ -106,6 +109,7 @@ Agents may set the waiting states. They may not set approved or declined.
 
 <!--
 Contoso is awaiting Security. Initech is awaiting the manager. Globex is still intake, because the owner is missing.
+A new vendor who already gave all five fields skips the pack. The bot sends the email.
 -->
 
 ---

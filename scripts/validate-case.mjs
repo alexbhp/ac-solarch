@@ -146,7 +146,16 @@ function validateCase(dir) {
     if (!(key in data)) errors.push(`case is missing ${key}`);
   }
   if (!STATUSES.has(text(data.status))) errors.push("status is not in the vocabulary");
-  if (data.sources_mode !== "mocked") errors.push("sources must be labeled mocked");
+  const skippedResearch =
+    data.research_started === false &&
+    ["awaiting_security", "awaiting_manager"].includes(text(data.status));
+  if (data.research_started === true && data.sources_mode !== "mocked") {
+    errors.push("sources must be labeled mocked");
+  } else if (skippedResearch && data.sources_mode !== "none") {
+    errors.push("sources_mode must be none when research is skipped");
+  } else if (!skippedResearch && data.research_started === false && data.sources_mode !== "mocked" && data.sources_mode !== "none") {
+    errors.push("sources must be labeled mocked");
+  }
   if (typeof data.touches_customer_data !== "boolean") errors.push("touches_customer_data must be true or false");
   if (typeof data.research_started !== "boolean") errors.push("research_started must be true or false");
   if (typeof data.security_required !== "boolean") errors.push("security_required must be true or false");
@@ -181,13 +190,16 @@ function validateCase(dir) {
 
   const emailPath = join(dir, "approval-email.md");
   const emailExists = existsSync(emailPath);
+  if (emailExists && !readFileSync(emailPath, "utf8").includes(`/approval/${id}`)) {
+    errors.push("approval email is missing the case link");
+  }
   const packPath = join(dir, "research-pack.md");
   const pastIntake = ["awaiting_security", "awaiting_manager", "approved", "declined"].includes(text(data.status));
 
   if (data.research_started === true) {
     if (!existsSync(packPath)) errors.push("research pack is missing");
     else validateResearch(readFileSync(packPath, "utf8"), data, errors);
-  } else if (text(data.status) !== "intake_incomplete") {
+  } else if (!skippedResearch && text(data.status) !== "intake_incomplete") {
     errors.push("research has not started");
   }
 

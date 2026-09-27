@@ -11,7 +11,7 @@ A case is the record. The chat is not.
 
 Required keys: `case_id`, `status`, `vendor_legal_name`, `website`, `touches_customer_data`, `business_owner`, `target_start_date`, `requester`, `sources_mode`, `research_started`, `missing_fields`, `security_required`, `security_decision`, `security_signed_by`, `manager_required`, `manager_decision`, `manager_signed_by`.
 
-`sources_mode` is `mocked` for this exercise.
+`sources_mode` is `mocked` when the pack was built from `fixtures/public-web/`. It is `none` when the requester already gave all five fields and research did not run.
 
 The body starts with the handoff:
 
@@ -27,6 +27,6 @@ Then `## What I automated` and `## What still needs a person`. Until a human has
 
 `audit.md` has `## Automated` and `## Needs a person`. Those headings match the ledger and `/ops/`.
 
-`approval-email.md` is a draft. It links to `/approval/?case=<case_id>`. Do not create it while a required field is missing. Globex (`VND-1103`) has no approval email.
+`approval-email.md` links to `https://ac-solarch.vercel.app/approval/<case_id>`. Do not create it while a required field is missing. When all five fields came from the requester, set `research_started: false` and `sources_mode: none`, and do not add a research pack. Globex (`VND-1103`) has no approval email.
 
 When a case changes, update its ledger row in `cases/ledger.md`.

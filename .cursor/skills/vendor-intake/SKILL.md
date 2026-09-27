@@ -1,43 +1,35 @@
 ---
 name: vendor-intake
-description: Capture an Acme vendor-pilot request. Keep every required field the requester already gave, research only the public gaps, and ask only for what is still missing. Use the worked-example case id when the vendor is Contoso, Initech, or Globex.
+description: Capture an Acme vendor-pilot request. When all five fields are in the message, write the next case folder with no research. Keep Contoso, Initech, and Globex on their existing ids.
 ---
 
 # Vendor intake
 
 Required fields: vendor legal name, website, touches customer data (yes or no), business owner, target start date.
 
-## Worked examples
+## Existing cases
 
-If the vendor is one of these, use that case. Do not invent a second id. Do not browse the live web. The fixtures are mocked.
+If the vendor is one of these, use that folder. Do not invent a second id.
 
 - Contoso Analytics, Inc. → `cases/VND-1101`
 - Initech Ledger, Inc. → `cases/VND-1102`
 - Globex → `cases/VND-1103`
 
-## What to keep
+## A new vendor
 
-Copy fields from the requester's message onto the case before you research. Do not ask again for a field they already gave.
+Use this when the vendor is not one of those three and the message already contains all five fields.
 
-## What research may fill
+1. Read the `VND-` folder names and `cases/ledger.md`. The new id is one higher than the highest number.
+2. Write `cases/<id>/case.md`, `audit.md`, and `approval-email.md`.
+3. Set `research_started: false` and `sources_mode: none`. Do not create a research pack. Do not read `fixtures/public-web/`.
+4. If the vendor will touch customer data, status is `awaiting_security`. Otherwise status is `awaiting_manager` and Security stays closed.
+5. Add one row to `cases/ledger.md`.
+6. The approval link is `https://ac-solarch.vercel.app/approval/<id>`.
 
-Only from `fixtures/public-web/`:
+The email goes to Marcus Adeyemi when Security is open, and to Riley Chen when the manager is open. Leave sending to the Vendor Intake bot. It sends only after its own approval card.
 
-- Legal name, when the public page states it
-- Website
-- Whether the vendor touches customer data, restated from the public page
-- A target start date only when a public pilot page prints one. Mark that date inferred, not confirmed.
+## Missing fields
 
-Research never fills the business owner. That person is an Acme employee.
+If any required field is empty, status is `intake_incomplete`. Ask only for the missing fields. Do not open Security, the manager, or an approval email.
 
-## What to ask
-
-Ask only for the fields that are still empty after that. One question, naming the missing fields. Globex's only question is the business owner.
-
-## When to stop
-
-- Any required field still empty → `intake_incomplete`. Do not open Security, the manager, or an approval email.
-- All five fields present and the checklist has a blank → `research_gap`. Approval stays closed.
-- Otherwise hand the case to the research pack, then to approval routing.
-
-Write `audit.md` and update `cases/ledger.md` before you reply. End with the handoff block. The last line is `I did not approve this vendor.`
+Write `audit.md` before you reply. End with the handoff block. The last line is `I did not approve this vendor.`

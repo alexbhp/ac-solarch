@@ -2,5 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "slides/dist",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    { "source": "/approval/:caseId", "destination": "/approval/index.html" }
+  ]
 }

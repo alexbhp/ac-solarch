@@ -2,9 +2,9 @@
 
 About 30 minutes. Say what is mocked and what is live.
 
-Mocked: the three vendor websites, the case files, the ledger, `/dataset/`, `/ops/`, and the draft emails.
-Live: the Vendor Intake bot, the `/approval/` click when the webhook env vars are set, and `node scripts/validate-case.mjs`.
-Not built: a Grok API call.
+Mocked: the three vendor websites, and the three seeded cases.
+Live: the Vendor Intake bot, the email it sends after its approval card, `/approval/<case id>`, `/ops/` reading the ledger from GitHub, and `node scripts/validate-case.mjs`.
+Not built: a Grok API call. Not built: a second bot.
 
 ## 1. Deck, about five minutes
 
@@ -20,7 +20,7 @@ Contoso, all five fields:
 We need to onboard Contoso Analytics, Inc. (https://www.contoso.example) for a 90-day pilot. They will touch customer data. Business owner is Priya Shah, Director of Finance Operations. Target start 2026-10-20.
 ```
 
-The bot keeps the fields, points at `cases/VND-1101/`, and stops for Marcus Adeyemi. It does not approve.
+The bot keeps the fields, points at `cases/VND-1101/`, and stops for Marcus Adeyemi. It does not approve. The email link is `https://ac-solarch.vercel.app/approval/VND-1101`. The bot sends that email only after its approval card.
 
 Initech, three of five:
 
@@ -28,7 +28,7 @@ Initech, three of five:
 We need to onboard Initech Ledger, Inc. Business owner is Elena Voss, VP Finance Operations. Target start 2026-11-03.
 ```
 
-The bot fills website and customer data no from the fixture, leaves Security closed, and stops for Riley Chen. Case `VND-1102`.
+The bot fills website and customer data no from the fixture, leaves Security closed, and stops for Riley Chen. Case `VND-1102`. The link is `/approval/VND-1102`.
 
 Globex, no fields:
 
@@ -36,13 +36,15 @@ Globex, no fields:
 We need to onboard Globex.
 ```
 
-The bot finds four fields, marks the start date inferred, and asks only for the Acme business owner. Case `VND-1103`. No approval link.
+The bot finds four fields, marks the start date inferred, and asks only for the Acme business owner. Case `VND-1103`. No approval email.
+
+A fourth vendor, all five fields, and not one of those three: the intake skill writes the next id (`VND-1104`, then `VND-1105`). `research_started` is false. There is no pack and no fixture. Customer data opens Security. No customer data opens the manager. The bot sends the email. The page works after that folder is on `main`.
 
 Optional status check: "Where is the Contoso pilot?"
 
 ## 3. Cursor
 
-Open the case the bot named. Show the boundaries rule, the skill that filled the gaps, the pack, the audit, and the ledger.
+Open the case the bot named. Show the boundaries rule, the skill that filled the gaps, the pack when research ran, the audit, and the ledger.
 
 ```
 node scripts/validate-case.mjs
@@ -54,22 +56,28 @@ VND-1101, VND-1102, and VND-1103 pass. VND-9999 fails because a customer-data ca
 node scripts/validate-case.mjs fixtures/invalid/VND-9999
 ```
 
-That command exits 1.
+That command exits 1. A new five-field case with `research_started: false` and `sources_mode: none` also passes:
+
+```
+node scripts/validate-case.mjs cases/VND-1104
+```
 
 ## 4. Approval click
 
-Open the draft link, or go to `/approval/?case=VND-1101`.
+Open the email link, or go to `/approval/VND-1101`. Ops rows go to the same path.
 
 - Logged in as Marcus Adeyemi. Approve. The bot's thread should say Security signed and the manager is next.
 - Logged in as Elena Voss on VND-1102. Approve. The bot refuses. She is the business owner.
-- Logged in as Riley Chen on VND-1102. More information required, with a note. The status stays. The bot posts the question.
-- Globex. The buttons are off.
+- Logged in as Riley Chen on VND-1102. Deny. The bot records declined.
+- Globex, `/approval/VND-1103`. The buttons are off.
+
+The page has Approve and Deny only. Either one posts `case_id`, `action`, `signed_by`, and `role`.
 
 If the webhook env vars are empty, the page says the decision stayed on the page. Say that, then show the pre-seeded case. Do not pretend the bot moved.
 
 ## 5. Prove the two lines
 
-Ops: open `/ops/`. Three rows. Contoso needs Marcus. Initech needs Riley. Globex needs an owner. The bot's handoff uses the same two headings.
+Ops: open `/ops/`. The rows come from `cases/ledger.md` on `main`. Contoso needs Marcus. Initech needs Riley. Globex needs an owner. Click a case id. The bot's handoff uses the same two headings.
 
 Security, asked in the bot:
 

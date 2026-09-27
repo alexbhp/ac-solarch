@@ -20,8 +20,8 @@ The business owner is an Acme employee. A vendor website cannot supply that name
 | --- | --- |
 | `intake_incomplete` | A required field is still empty. The bot asks only for that field. |
 | `research_gap` | Intake fields are present and a checklist row is still blank. Approval stays closed. |
-| `awaiting_security` | The pack is complete and the vendor will touch customer data. Security signs before the manager. |
-| `awaiting_manager` | The manager has not signed. Security has already approved when the vendor touches customer data. |
+| `awaiting_security` | All five fields are present and the vendor will touch customer data. Security signs before the manager. |
+| `awaiting_manager` | The manager has not signed. Security has already approved, or Security stayed closed because the vendor does not touch customer data. |
 | `approved` | A named person signed. An agent cannot set this. |
 | `declined` | A named person signed a decline. An agent cannot set this. |
 
@@ -51,9 +51,14 @@ Do not invent a second case id for these vendors.
 | Contoso, all five fields | `cases/VND-1101` | Pack is built. Stops for Security. |
 | Initech, three of five | `cases/VND-1102` | Research fills website and customer data (no). Stops for the manager. Security stays closed. |
 | Globex, no fields | `cases/VND-1103` | Research finds four fields. The owner is not on the public web. Asks only for the owner. No approval link. |
+| Any other vendor, all five fields | the next `VND-` id | No research pack. Status is `awaiting_security` or `awaiting_manager`. The bot sends the email. |
 
 ## Record
 
 Every submission gets a case folder and a row in `cases/ledger.md` as soon as intake starts. Each folder has `audit.md` with the headings `Automated` and `Needs a person`. Ops reads the same split at `/ops/`. The bot's handoff uses those same headings.
 
-The agent reads mocked public pages and the case file. It does not approve, send mail, or hold an ITSM credential, a mailbox password, or the webhook key.
+The agent reads mocked public pages and the case file. It does not approve, and it does not hold an ITSM credential, a mailbox password, or the webhook key.
+
+When the requester already supplied all five fields, research does not run. `research_started` is `false` and `sources_mode` is `none`. The intake skill writes `case.md`, `audit.md`, `approval-email.md`, and the ledger row. The Vendor Intake bot sends that email after its own approval card. The link is `https://ac-solarch.vercel.app/approval/<case id>`. Customer data goes to Marcus Adeyemi. Otherwise it goes to Riley Chen. The bot does not send because a webhook said so.
+
+`/ops/` and `/approval/<case id>` read the case from GitHub `main` when the page loads. A push is enough. There is no second copy and no database.
