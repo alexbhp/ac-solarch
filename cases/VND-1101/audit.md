@@ -6,8 +6,8 @@
 - Checked the mocked website, trust page, and pricing page.
 - Opened Security because the vendor will touch customer data.
 - Wrote the approval email for the bot to send after its approval card.
+- Marcus Adeyemi approved at the Security gate via the approval webhook.
 
 ## Needs a person
 
-- Marcus Adeyemi, Security, to approve or decline.
-- Riley Chen, Finance approver, after Security signs.
+- Riley Chen, Finance approver, to sign the manager gate.
