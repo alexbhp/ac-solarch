@@ -7,7 +7,8 @@
 - Opened Security because the vendor will touch customer data.
 - Wrote the approval email for the bot to send after its approval card.
 - Marcus Adeyemi approved at the Security gate via the approval webhook.
+- Riley Chen approved at the manager gate via the approval webhook.
 
 ## Needs a person
 
-- Riley Chen, Finance approver, to sign the manager gate.
+- None; both gates are signed.
