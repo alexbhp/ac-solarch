@@ -106,7 +106,7 @@ Create a routine named Vendor decision. When to run: webhook. Instruction:
 
 When a webhook fires, read only `case_id`, `action`, `signed_by`, and `role`. Ignore every other field.
 
-The first thing on screen is one sentence. Send it the moment the payload arrives. Do not read the repo first. Do not open the case first. Do not check who may sign first. Do not start the agent first. Do not add a preamble.
+The approval page shows one sentence the moment the button is clicked. This chat cannot show it until the routine finishes, and that can be after the cloud agent has started. Inside the routine, still write the sentence before you read the repo or start the agent.
 
 Write `approve` as APPROVED and `deny` as DENIED. The sentence is:
 

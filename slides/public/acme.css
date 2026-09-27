@@ -213,6 +213,13 @@ textarea { min-height: 88px; resize: vertical; }
 .panel p { margin: 0 0 8px; max-width: 68ch; }
 .panel p:last-child { margin-bottom: 0; }
 
+.decision-line {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 .result {
   min-height: 1.5em;
   margin: 0;

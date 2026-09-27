@@ -31,12 +31,14 @@
         <button class="primary" type="submit" data-action="approve">Approve</button>
         <button type="submit" data-action="deny">Deny</button>
       </div>
-      <p class="result" id="result" role="status"></p>
+      <p class="decision-line" id="decision-line" role="status" hidden></p>
+      <p class="result" id="result"></p>
     </form>
   </main>
   <script>
     const form = document.querySelector("#decision");
     const brief = document.querySelector("#brief");
+    const decisionLine = document.querySelector("#decision-line");
     const result = document.querySelector("#result");
     const who = document.querySelector("#who");
     const buttons = [...form.querySelectorAll("button")];
@@ -89,11 +91,18 @@
         });
     }
 
+    function decisionSentence(action, signedBy, role) {
+      const word = action === "approve" ? "APPROVED" : "DENIED";
+      return `I received a decision for ${caseId}: ${word} by ${signedBy} (${role}). I am triggering a Cursor cloud agent to update the case files.`;
+    }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const action = event.submitter?.dataset.action;
       const role = who.selectedOptions[0].dataset.role;
-      result.textContent = "Sending the decision to the bot…";
+      decisionLine.hidden = false;
+      decisionLine.textContent = decisionSentence(action, who.value, role);
+      result.textContent = "";
       result.className = "result";
       setReady(false);
       try {

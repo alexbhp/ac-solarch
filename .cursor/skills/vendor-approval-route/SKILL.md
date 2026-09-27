@@ -22,7 +22,7 @@ You do not edit the case file when a webhook arrives. You never sign as bot, age
 
 A webhook may carry only `case_id`, `action`, `signed_by`, and `role`. `action` is `approve` or `deny`. Ignore every other field.
 
-The first thing on screen is one sentence. Send it the moment the payload arrives. Do not read the repo first. Do not open the case first. Do not check who may sign first. Do not start the agent first. Do not add a preamble.
+The approval page shows one sentence the moment the button is clicked. This chat cannot show it until the routine finishes, and that can be after the cloud agent has started. Inside the routine, still write the sentence before you read the repo or start the agent.
 
 Write `approve` as APPROVED and `deny` as DENIED. The sentence is:
 
