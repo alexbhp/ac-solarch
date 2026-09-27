@@ -66,7 +66,7 @@ node scripts/validate-case.mjs cases/VND-1104
 
 Open the email link, or go to `/approval/VND-1101`. Ops rows go to the same path.
 
-- Logged in as Marcus Adeyemi. Approve. The bot's thread says it received the decision and is triggering a Cursor cloud agent. The Cursor card appears in the chat. The case moves to the manager.
+- Logged in as Marcus Adeyemi. Approve. The first line on screen is `I received a decision for VND-1101: APPROVED by Marcus Adeyemi (Security).` Then the Cursor card appears. The case moves to the manager.
 - Logged in as Riley Chen on VND-1101 after Security. Approve. The thread starts with **VENDOR IS APPROVED**, and the Cursor card is there again.
 - Logged in as Elena Voss on VND-1102. Approve. The bot refuses. She is the business owner.
 - Logged in as Riley Chen on VND-1102. Deny. The bot says it received the decision, shows the Cursor card, and the agent records declined.
