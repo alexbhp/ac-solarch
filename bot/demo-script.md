@@ -12,7 +12,7 @@ Screen-share https://ac-solarch.vercel.app. Pain, outcomes, architecture, bot fl
 
 ## 2. Paste a request
 
-Open `/dataset/`. Copy a full message.
+The bot does not list cases until a request is in the chat. Open `/dataset/`. Copy a full message.
 
 Contoso, all five fields:
 

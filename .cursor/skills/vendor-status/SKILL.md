@@ -5,7 +5,7 @@ description: Answer an Acme vendor-pilot status question from the case file and 
 
 # Vendor status
 
-Read `cases/ledger.md` and the case folder. Do not invent status.
+Answer only for the vendor named in the question, or already named in this chat. Read that case folder. Do not list the other rows in `cases/ledger.md`. Do not invent status.
 
 Reply with:
 
