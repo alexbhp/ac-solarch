@@ -3,12 +3,12 @@
 About 30 minutes. Say what is mocked and what is live.
 
 Mocked: the three vendor websites, and the three seeded cases.
-Live: the Vendor Intake bot, the email it sends after its approval card, `/approval/<case id>`, `/ops/` reading the ledger from GitHub, and `node scripts/validate-case.mjs`.
+Live: the home page at `/`, the Vendor Intake bot, the email it sends after its approval card, `/approval/<case id>`, `/ops/` reading the ledger from GitHub, `/api-literacy/`, and `node scripts/validate-case.mjs`.
 Not built: a Grok API call. Not built: a second bot.
 
 ## 1. Deck, about five minutes
 
-Screen-share https://ac-solarch.vercel.app. Pain, outcomes, architecture, bot flow. The outcomes slide points at `/ops/` and at the Security questions.
+Screen-share https://ac-solarch.vercel.app. The home page lists every path, including the API crib. Open Deck. Pain, outcomes, architecture, bot flow. The outcomes slide points at `/ops/` and at the Security questions.
 
 ## 2. Paste a request
 

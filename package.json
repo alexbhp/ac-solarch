@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "slidev slides/slides.md",
-    "build": "slidev build slides/slides.md --out dist",
+    "build": "rm -rf slides/dist && slidev build slides/slides.md --base /deck/ --out dist/deck && node scripts/place-public.mjs",
     "validate": "node scripts/validate-case.mjs"
   },
   "devDependencies": {

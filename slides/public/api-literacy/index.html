@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API — Acme vendor onboarding</title>
+  <link rel="stylesheet" href="/acme.css">
+</head>
+<body>
+  <main class="wrap">
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/deck/">Deck</a>
+      <a href="/dataset/">Dataset</a>
+      <a href="/approval/">Approval</a>
+      <a href="/ops/">Ops</a>
+      <a href="/api-literacy/" aria-current="page">API</a>
+    </nav>
+    <h1>Grok API</h1>
+    <p class="lede">No API call is built. This is the answer if someone asks where the API would enter. The bot stays the front door. The case file stays the record. The API would fill that same case. It would not decide approved or declined.</p>
+
+    <section class="record">
+      <h2>Where it would enter</h2>
+      <p class="lede">An ITSM webhook, or a volume job that fills research packs, would call the API from a service you run. The service executes tools. The model does not hold the side effects.</p>
+      <p class="lede">Useful tools on that service: <code>save_pack</code> and <code>set_status</code>. <code>set_status</code> accepts only <code>intake_incomplete</code>, <code>research_gap</code>, <code>awaiting_security</code>, and <code>awaiting_manager</code>. The service refuses <code>approved</code> and <code>declined</code> and runs <code>scripts/validate-case.mjs</code> on the write.</p>
+    </section>
+
+    <section class="record">
+      <h2>Call</h2>
+      <div class="message">
+        <p><code>POST https://api.x.ai/v1/responses</code></p>
+        <p><code>Authorization: Bearer $XAI_API_KEY</code></p>
+        <p>Model: <code>grok-4.6</code> (500k context). OpenAI-compatible SDKs work against this endpoint.</p>
+      </div>
+      <p class="lede">An inference key calls the model. A management key, with explicit permissions, is what Collections and file tools need. The key lives in the service environment. It does not go in git, and it does not go on the shared bot computer.</p>
+    </section>
+
+    <section class="record">
+      <h2>Tools</h2>
+      <p class="lede"><code>web_search</code> runs server-side. <code>allowed_domains</code> holds at most five domains.</p>
+      <p class="lede">Function calling: the model requests a tool, the service runs it, and the service returns <code>function_call_output</code>. The model does not execute the tool itself.</p>
+    </section>
+
+    <section class="record">
+      <h2>Rate</h2>
+      <p class="lede"><code>grok-4.6</code> tier T0 is about 150 requests per second and 50 million tokens per minute, and the ceiling scales with spend tier. A 429 waits with exponential backoff. Per-key QPS and TPM limits are possible.</p>
+      <p class="lede">Batch API is discounted, typically finishes within 24 hours, and does not count against the realtime rate limit.</p>
+    </section>
+
+    <section class="record">
+      <h2>Cost</h2>
+      <p class="lede">Under 200k prompt tokens, the published ballpark is about $2 per million input tokens, $0.50 cached, and $6 per million output tokens. At 200k prompt tokens or above, those rates double for the whole request. Confirm the live pricing page before quoting a number in the room. Do not quote web-search tool dollars from memory.</p>
+      <p class="lede">Chat Completions can send a prompt cache hint with <code>x-grok-conv-id</code>. The Responses API uses <code>prompt_cache_key</code>.</p>
+    </section>
+
+    <section class="record">
+      <h2>What you say</h2>
+      <p class="lede">The API is how a ticket system or a batch job would do the same intake and pack fill the bot does in conversation. Auth is a bearer key on a service. Rate limits are answered with backoff. Cost jumps once the prompt crosses 200k tokens. The approval decision stays with Marcus or Riley, on <a href="/approval/">/approval/</a>, either way.</p>
+    </section>
+  </main>
+</body>
+</html>

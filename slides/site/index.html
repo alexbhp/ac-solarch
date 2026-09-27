@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home — Acme vendor onboarding</title>
+  <link rel="stylesheet" href="/acme.css">
+</head>
+<body>
+  <main class="wrap">
+    <nav class="nav">
+      <a href="/" aria-current="page">Home</a>
+      <a href="/deck/">Deck</a>
+      <a href="/dataset/">Dataset</a>
+      <a href="/approval/">Approval</a>
+      <a href="/ops/">Ops</a>
+      <a href="/api-literacy/">API</a>
+    </nav>
+    <h1>Acme vendor onboarding</h1>
+    <p class="lede">Every path for the walkthrough. The companies are fictional. The vendor pages are mocked. No Grok API call is built.</p>
+
+    <section class="record">
+      <h2>Pages</h2>
+      <table class="paths">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>What it opens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Path"><a class="path" href="/deck/">/deck/</a></td>
+            <td data-label="What it opens">The walkthrough. Intake, a research pack, then approval routing.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/dataset/">/dataset/</a></td>
+            <td data-label="What it opens">The three requester messages to paste into the bot.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/ops/">/ops/</a></td>
+            <td data-label="What it opens">The ledger. What was automated, and what still needs a person.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/approval/">/approval/</a></td>
+            <td data-label="What it opens">The decision page. It needs a case id on the path.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api-literacy/">/api-literacy/</a></td>
+            <td data-label="What it opens">Where a Grok API call would enter. The call itself is not built.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="record">
+      <h2>Cases</h2>
+      <table class="paths">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>What it opens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Path"><a class="path" href="/approval/VND-1101">/approval/VND-1101</a></td>
+            <td data-label="What it opens">Contoso. Waiting on Marcus Adeyemi.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/approval/VND-1102">/approval/VND-1102</a></td>
+            <td data-label="What it opens">Initech. Waiting on Riley Chen.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/approval/VND-1103">/approval/VND-1103</a></td>
+            <td data-label="What it opens">Globex. The business owner is still missing, so there is no decision to make.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="record">
+      <h2>JSON</h2>
+      <table class="paths">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>What it opens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api/ledger">/api/ledger</a></td>
+            <td data-label="What it opens">GET. The same ledger Ops reads.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api/case?id=VND-1101">/api/case?id=VND-1101</a></td>
+            <td data-label="What it opens">GET. Contoso. Swap the id for Initech or Globex.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api/case?id=VND-1102">/api/case?id=VND-1102</a></td>
+            <td data-label="What it opens">GET. Initech.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api/case?id=VND-1103">/api/case?id=VND-1103</a></td>
+            <td data-label="What it opens">GET. Globex.</td>
+          </tr>
+          <tr>
+            <td data-label="Path"><a class="path" href="/api/approval">/api/approval</a></td>
+            <td data-label="What it opens">POST only. The approval page sends the decision here. Opening this path in the browser is refused.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

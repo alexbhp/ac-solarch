@@ -18,11 +18,14 @@ npm run dev
 node scripts/validate-case.mjs fixtures/invalid/VND-9999
 ```
 
-The deck source is `slides/slides.md`. The built site also serves:
+The deck source is `slides/slides.md`. The built site serves it at `/deck/`. The home page at `/` lists every path:
 
+- `/deck/` — the walkthrough
 - `/dataset/` — three requester messages, with a copy button on each field
 - `/approval/<case id>` — Logged in as, then Approve or Deny for that vendor
 - `/ops/` — every submission, automated against what still needs a person
+- `/api-literacy/` — where a Grok API call would enter. No call is built.
+- `/api/ledger`, `/api/case`, and `/api/approval` — the JSON those pages use
 
 ## Bot
 

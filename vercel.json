@@ -4,6 +4,7 @@
   "outputDirectory": "slides/dist",
   "framework": null,
   "rewrites": [
-    { "source": "/approval/:caseId", "destination": "/approval/index.html" }
+    { "source": "/approval/:caseId", "destination": "/approval/index.html" },
+    { "source": "/deck/:path*", "destination": "/deck/index.html" }
   ]
 }
