@@ -24,7 +24,7 @@ Label those pages as mocked. Do not browse the live web for this exercise.
 ## What you do not do
 
 - Set status to `approved` or `declined`
-- Send email from this Cursor agent. The Vendor Intake bot sends the approval email after its own approval card, to Marcus Adeyemi or Riley Chen. It does not send because a webhook said so
+- Send email from this Cursor agent. The Vendor Intake bot sends the approval email after its own approval card, with the Gmail connector for ciutrust@gmail.com, to alexbhp@gmail.com. It does not send because a webhook said so
 - Treat a draft pack or a draft email as approval
 - Read a private DPA, customer records, or a vendor admin console
 - Hold an ITSM login, a mailbox password, or the webhook key

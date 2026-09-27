@@ -26,7 +26,7 @@ Use this when the vendor is not one of those three and the message already conta
 5. Add one row to `cases/ledger.md`.
 6. The approval link is `https://ac-solarch.vercel.app/approval/<id>`.
 
-The email goes to Marcus Adeyemi when Security is open, and to Riley Chen when the manager is open. Leave sending to the Vendor Intake bot. It sends only after its own approval card.
+The Vendor Intake bot sends the email after its own approval card, through the Gmail connector signed in as `ciutrust@gmail.com`, to `alexbhp@gmail.com`. The body names Marcus Adeyemi when Security is open, and Riley Chen when the manager is open. Those names are not the To address.
 
 ## Missing fields
 

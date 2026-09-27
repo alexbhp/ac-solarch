@@ -59,6 +59,6 @@ Every submission gets a case folder and a row in `cases/ledger.md` as soon as in
 
 The agent reads mocked public pages and the case file. It does not approve, and it does not hold an ITSM credential, a mailbox password, or the webhook key.
 
-When the requester already supplied all five fields, research does not run. `research_started` is `false` and `sources_mode` is `none`. The intake skill writes `case.md`, `audit.md`, `approval-email.md`, and the ledger row. The Vendor Intake bot sends that email after its own approval card. The link is `https://ac-solarch.vercel.app/approval/<case id>`. Customer data goes to Marcus Adeyemi. Otherwise it goes to Riley Chen. The bot does not send because a webhook said so.
+When the requester already supplied all five fields, research does not run. `research_started` is `false` and `sources_mode` is `none`. The intake skill writes `case.md`, `audit.md`, `approval-email.md`, and the ledger row. The Vendor Intake bot sends that email after its own approval card, with the Gmail connector signed in as `ciutrust@gmail.com`, to `alexbhp@gmail.com`. The link is `https://ac-solarch.vercel.app/approval/<case id>`. The body names Marcus Adeyemi when the vendor touches customer data, and Riley Chen otherwise. The bot does not send because a webhook said so.
 
 `/ops/` and `/approval/<case id>` read the case from GitHub `main` when the page loads. A push is enough. There is no second copy and no database.

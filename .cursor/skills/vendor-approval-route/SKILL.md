@@ -12,7 +12,7 @@ Run this when all five intake fields are present. A research pack is not require
 
 The manager is always required before `approved`. Set `manager_required: true` and `manager_decision: pending`. Leave both signatures empty.
 
-Write `approval-email.md`. The link is `https://ac-solarch.vercel.app/approval/<case_id>`. The Vendor Intake bot sends that email after its approval card. Do not treat the draft as a decision.
+Write `approval-email.md`. The link is `https://ac-solarch.vercel.app/approval/<case_id>`. From is `ciutrust@gmail.com`. To is `alexbhp@gmail.com`. The body names the signer: Marcus Adeyemi for Security, Riley Chen for the manager. The Vendor Intake bot sends that email with the Gmail connector for `ciutrust@gmail.com` after its approval card. Do not treat the draft as a decision.
 
 You may not set `approved` or `declined`. You may not put bot, agent, grok, cursor, or system in a signature. The business owner is not the signer.
 

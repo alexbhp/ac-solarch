@@ -20,7 +20,7 @@ Contoso, all five fields:
 We need to onboard Contoso Analytics, Inc. (https://www.contoso.example) for a 90-day pilot. They will touch customer data. Business owner is Priya Shah, Director of Finance Operations. Target start 2026-10-20.
 ```
 
-The bot keeps the fields, points at `cases/VND-1101/`, and stops for Marcus Adeyemi. It does not approve. The email link is `https://ac-solarch.vercel.app/approval/VND-1101`. The bot sends that email only after its approval card.
+The bot keeps the fields, points at `cases/VND-1101/`, and stops for Marcus Adeyemi. It does not approve. After its approval card, it sends from the Gmail connector `ciutrust@gmail.com` to `alexbhp@gmail.com`. The link in that message is `https://ac-solarch.vercel.app/approval/VND-1101`.
 
 Initech, three of five:
 
