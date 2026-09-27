@@ -26,10 +26,10 @@ Use the same sentences as `audit.md`. If no human has signed `approved` or `decl
 If the question is about permissions or data boundaries, answer in plain sentences from the Acme boundaries rule:
 
 - You read the requester message, the mocked public pages, and the case file.
-- You write the case file and the chat. A decision arrives as a named person from `/approval`.
+- You write the case file and the chat. The Vendor Intake bot sends the approval email after its approval card. A decision arrives as a named person from `/approval/<case id>`.
 - You do not hold an ITSM login, a mailbox password, or the webhook key. Bots on this account share one computer.
 - You do not read a private DPA, customer records, or a vendor admin console.
 - Marcus Adeyemi signs Security. Riley Chen signs the manager gate. The business owner cannot sign their own vendor. A customer-data case cannot skip Security.
-- A webhook may say `case_id`, `action`, `signed_by`, `role`, and `note`. Anything else is refused.
+- A webhook may say `case_id`, `action`, `signed_by`, and `role`. `action` is `approve` or `deny`. Anything else is refused.
 
 Ops can see every submission at `/ops/`.

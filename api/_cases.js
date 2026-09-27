@@ -43,7 +43,9 @@ export function parseLedger(markdown) {
 }
 
 export async function readRepoFile(relPath) {
-  const response = await fetch(`${REPO}/${relPath}`, { signal: AbortSignal.timeout(8000) });
+  const response = await fetch(`${REPO}/${relPath}?t=${Date.now()}`, {
+    signal: AbortSignal.timeout(8000),
+  });
   if (!response.ok) return null;
   return response.text();
 }
